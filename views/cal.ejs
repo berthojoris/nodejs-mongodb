@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Calculator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/x-icon" href="template/login-form-15/images/globe.png">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="template/login-form-15/css/style.css">
+    <link rel="stylesheet" href="css/cal.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="row gx-4 gx-lg-5">
+                        <div class="col-md-12 mb-5">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <span><p>Welcome, <b><%= session.username %></b></p></span>
+                                    <h2 class="card-title">Calculator</h2>
+                                    <table class="calculator">
+                                        <tr>
+                                            <td colspan="3"> <input class="display-box" type="text" id="result" disabled /> </td>
+                                            <td> <input type="button" value="C" onclick="clearScreen()" id="btn" /> </td>
+                                        </tr>
+                                        <tr>
+                                            <td> <input type="button" value="1" onclick="display('1')" /> </td>
+                                            <td> <input type="button" value="2" onclick="display('2')" /> </td>
+                                            <td> <input type="button" value="3" onclick="display('3')" /> </td>
+                                            <td> <input type="button" value="/" onclick="display('/')" /> </td>
+                                        </tr>
+                                        <tr>
+                                            <td> <input type="button" value="4" onclick="display('4')" /> </td>
+                                            <td> <input type="button" value="5" onclick="display('5')" /> </td>
+                                            <td> <input type="button" value="6" onclick="display('6')" /> </td>
+                                            <td> <input type="button" value="-" onclick="display('-')" /> </td>
+                                        </tr>
+                                        <tr>
+                                            <td> <input type="button" value="7" onclick="display('7')" /> </td>
+                                            <td> <input type="button" value="8" onclick="display('8')" /> </td>
+                                            <td> <input type="button" value="9" onclick="display('9')" /> </td>
+                                            <td> <input type="button" value="+" onclick="display('+')" /> </td>
+                                        </tr>
+                                        <tr>
+                                            <td> <input type="button" value="." onclick="display('.')" /> </td>
+                                            <td> <input type="button" value="0" onclick="display('0')" /> </td>
+                                            <td> <input type="button" value="=" onclick="calculate()" id="btn" /> </td>
+                                            <td> <input type="button" value="*" onclick="display('*')" /> </td>
+                                        </tr>
+                                    </table>
+                                    <script type="text/javascript">
+                                        function clearScreen() {
+                                            $("#result").val("")
+                                        }
+
+                                        function display(value) {
+                                            document.getElementById("result").value += value;
+                                        }
+
+                                        function calculate() {
+                                            var p = $("#result").val()
+                                            var q = eval(p);
+                                            $("#result").val(q)
+                                        }
+                                    </script>
+                                </div>
+                                <div class="card-footer">
+                                    <a class="btn btn-info btn-sm" href="/profile">Profile</a>
+                                    <a class="btn btn-primary btn-sm" href="/logout">Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
