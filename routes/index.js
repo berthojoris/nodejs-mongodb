@@ -27,7 +27,6 @@ router.post('/', function(req, res, next) {
                     User.findOne({}, function(err, data) {
 
                         if (data) {
-                            console.log("if");
                             c = data.unique_id + 1;
                         } else {
                             c = 1;
@@ -129,12 +128,10 @@ router.get('/logout', function(req, res, next) {
     // User.findOneAndUpdate(conditions, update);
 
     User.findOne({ unique_id: req.session.userId }, function(err, data) {
-        if (!data) {
-            console.log("NO DATA FOUND")
-        } else {
+        if (!data) {} else {
             const update = { loginEnd: new Date() };
             User.updateOne({ unique_id: data.unique_id }, update, (err, res) => {
-                console.log("UPDATE DONE");
+                //
             });
         }
     });
@@ -158,41 +155,6 @@ router.get('/calculator', function(req, res, next) {
     const sessionuser = req.session.user;
 
     res.render("cal.ejs", { "session": sessionuser });
-});
-
-router.get('/forgetpass', function(req, res, next) {
-    res.render("forget.ejs", {
-        layout: false,
-        session: req.session
-    });
-});
-
-router.post('/forgetpass', function(req, res, next) {
-    //console.log('req.body');
-    //console.log(req.body);
-    User.findOne({ email: req.body.email }, function(err, data) {
-        console.log(data);
-        if (!data) {
-            res.send({ "Success": "This Email Is not regestered!" });
-        } else {
-            // res.send({"Success":"Success!"});
-            if (req.body.password == req.body.passwordConf) {
-                data.password = req.body.password;
-                data.passwordConf = req.body.passwordConf;
-
-                data.save(function(err, Person) {
-                    if (err)
-                        console.log(err);
-                    else
-                        console.log('Success');
-                    res.send({ "Success": "Password changed!" });
-                });
-            } else {
-                res.send({ "Success": "Password does not matched! Both Password should be same." });
-            }
-        }
-    });
-
 });
 
 module.exports = router;
