@@ -1,3 +1,5 @@
 ## nodejs-mongodb
 
-Run : nodemon server.js
+```
+nodemon server.js
+```
