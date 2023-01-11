@@ -88,7 +88,6 @@ router.post('/login', function(req, res, next) {
 
                 const update = {
                     loginStart: new Date(),
-                    loginEnd: new Date(),
                 };
 
                 User.updateOne({ email: req.body.email }, update, (err, res) => {
@@ -115,8 +114,19 @@ router.get('/profile', function(req, res, next) {
             res.redirect('/');
         } else {
             const loginStart = moment(data.loginStart).format('DD/MM/YYYY hh:mm a');
-            const loginEnd = moment(data.loginEnd).format('DD/MM/YYYY hh:mm a');
-            return res.render('profile.ejs', { "name": data.username, "email": data.email, "loginStart": loginStart, "loginEnd": loginEnd });
+            if (!data.loginEnd) {
+                var loginEnd = "-";
+            } else {
+                var loginEnd = moment(data.loginEnd).format('DD/MM/YYYY hh:mm a');
+            }
+
+            console.log(data)
+            return res.render('profile.ejs', {
+                "name": data.username,
+                "email": data.email,
+                "loginStart": loginStart,
+                "loginEnd": loginEnd
+            });
         }
     });
 });
@@ -136,9 +146,6 @@ router.get('/logout', function(req, res, next) {
         }
     });
 
-    console.log("LOGOUT")
-
-
     if (req.session) {
         req.session.destroy(function(err) {
             if (err) {
@@ -152,9 +159,13 @@ router.get('/logout', function(req, res, next) {
 
 router.get('/calculator', function(req, res, next) {
 
-    const sessionuser = req.session.user;
+    if (!req.session.userId) {
+        return res.redirect('/login');
+    } else {
+        const sessionuser = req.session.user;
 
-    res.render("cal.ejs", { "session": sessionuser });
+        res.render("cal.ejs", { "session": sessionuser });
+    }
 });
 
 module.exports = router;
