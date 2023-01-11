@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="template/login-form-15/css/style.css">
     <link rel="stylesheet" href="css/cal.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/terbilang.js"></script>
 </head>
 
 <body>
@@ -54,22 +55,14 @@
                                             <td> <input type="button" value="*" onclick="display('*')" /> </td>
                                         </tr>
                                     </table>
-                                    <script type="text/javascript">
-                                        function clearScreen() {
-                                            $("#result").val("")
-                                        }
-
-                                        function display(value) {
-                                            document.getElementById("result").value += value;
-                                        }
-
-                                        function calculate() {
-                                            var p = $("#result").val()
-                                            var q = eval(p);
-                                            $("#result").val(q)
-                                        }
-                                    </script>
                                 </div>
+                                <div class="form-check" style="margin-left: 20px;">
+                                    <input class="form-check-input" type="checkbox" value="" id="check_terbilang">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                      Checklist jika ingin melihat terbilang
+                                    </label>
+                                </div>
+                                <div id="lblterbilang" class="alert alert-info d-none" style="margin-left: 10px; margin-right: 10px;"></div>
                                 <div class="card-footer">
                                     <a class="btn btn-info btn-sm" href="/profile">Profile</a>
                                     <a class="btn btn-primary btn-sm" href="/logout">Logout</a>
@@ -81,6 +74,32 @@
             </div>
         </div>
     </section>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#lblterbilang").addClass("d-none")
+        });
+
+        function clearScreen() {
+            $("#result").val("")
+            $("#lblterbilang").addClass("d-none").empty()
+            $("#check_terbilang").prop('checked', false)
+        }
+
+        function display(value) {
+            document.getElementById("result").value += value;
+        }
+
+        function calculate() {
+            $("#lblterbilang").addClass("d-none")
+            var p = $("#result").val()
+            var q = eval(p);
+            if ($("#check_terbilang").is(':checked')) {
+                $("#lblterbilang").removeClass("d-none").html(terbilang(q))
+            }
+            $("#result").val(q)
+        }
+    </script>
 
 </body>
 
