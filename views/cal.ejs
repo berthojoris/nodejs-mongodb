@@ -78,6 +78,14 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $("#lblterbilang").addClass("d-none")
+
+            $("#check_terbilang").change(function() {
+                if (this.checked) {
+                    $("#lblterbilang").removeClass("d-none").html(terbilang($("#result").val()))
+                } else {
+                    $("#lblterbilang").addClass("d-none").empty()
+                }
+            });
         });
 
         function clearScreen() {
@@ -88,15 +96,17 @@
 
         function display(value) {
             document.getElementById("result").value += value;
+            if ($("#check_terbilang").is(':checked')) {
+                $("#lblterbilang").removeClass("d-none").html(terbilang($("#result").val()))
+            } else {
+                $("#lblterbilang").addClass("d-none").empty()
+            }
         }
 
         function calculate() {
             $("#lblterbilang").addClass("d-none")
             var p = $("#result").val()
             var q = eval(p);
-            if ($("#check_terbilang").is(':checked')) {
-                $("#lblterbilang").removeClass("d-none").html(terbilang(q))
-            }
             $("#result").val(q)
         }
     </script>
