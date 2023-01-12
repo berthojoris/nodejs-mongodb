@@ -72,22 +72,19 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-    //console.log(req.body);
     User.findOne({ email: req.body.email }, function(err, data) {
 
         if (data) {
 
             if (data.password == req.body.password) {
-                //console.log("Done Login");
                 req.session.userId = data.unique_id;
 
                 req.session.user = data;    
                 req.session.save();
-                //console.log(req.session.userId);
-                // res.send({ "Success": "Success!" });
 
                 const update = {
-                    loginStart: new Date(),
+                    loginStart: Math.floor(Date.now() / 1000),
+                    loginEnd: Math.floor(Date.now() / 1000),
                 };
 
                 User.updateOne({ email: req.body.email }, update, (err, res) => {
@@ -113,19 +110,9 @@ router.get('/profile', function(req, res, next) {
         if (!data) {
             res.redirect('/');
         } else {
-            const loginStart = moment(data.loginStart).format('DD/MM/YYYY hh:mm a');
-            if (!data.loginEnd) {
-                var loginEnd = "-";
-            } else {
-                var loginEnd = moment(data.loginEnd).format('DD/MM/YYYY hh:mm a');
-            }
-
-            console.log(data)
             return res.render('profile.ejs', {
                 "name": data.username,
-                "email": data.email,
-                "loginStart": loginStart,
-                "loginEnd": loginEnd
+                "email": data.email
             });
         }
     });
@@ -133,13 +120,9 @@ router.get('/profile', function(req, res, next) {
 
 router.get('/logout', function(req, res, next) {
 
-    // const conditions = { unique_id: req.session.userId };
-    // const update = { loginEnd: new Date() };
-    // User.findOneAndUpdate(conditions, update);
-
     User.findOne({ unique_id: req.session.userId }, function(err, data) {
         if (!data) {} else {
-            const update = { loginEnd: new Date() };
+            const update = { loginEnd: Math.floor(Date.now() / 1000) };
             User.updateOne({ unique_id: data.unique_id }, update, (err, res) => {
                 //
             });

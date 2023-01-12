@@ -8,8 +8,8 @@ userSchema = new Schema({
         username: String,
         password: String,
         passwordConf: String,
-        loginStart: Date,
-        loginEnd: Date
+        loginStart: String,
+        loginEnd: String,
     }),
     User = mongoose.model('User', userSchema);
 
